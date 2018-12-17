@@ -4,14 +4,16 @@ const keys = require('./keys');
 const passport = require('passport');
 const mongoose = require('mongoose');
 
+/**
+ * import mongoose model */
 require('./models/User');
 
 const app = express();
 
 mongoose.connect(
-    
-    keys.mongoURI, 
-    
+
+    keys.mongoURI,
+
     { useNewUrlParser: true }
 
 ).then(() => console.log('Connected to database.'));
@@ -20,7 +22,7 @@ app.use(cookieSession({
 
     name: 'session',
 
-    keys: [keys.token],
+    keys: [keys.cookieKey],
 
     maxAge: 24 * 60 * 60 * 1000
 
@@ -29,6 +31,8 @@ app.use(cookieSession({
 app.use(passport.initialize());
 app.use(passport.session());
 
+/**
+ * import passport and routes */
 require('./services/passport');
 require('./routes/authRoutes')(app);
 
